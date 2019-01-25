@@ -78,6 +78,7 @@ app.use('/graphql', graphqlHttp({
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@graphql-react-mongo-one-pggfz.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, {useNewUrlParser: true})
   .then(() => {
+    console.log('Connection to DB established, Captain o/')
     app.listen(3000);
   })
   .catch(err => {
