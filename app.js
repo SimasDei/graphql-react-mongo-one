@@ -1,16 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
-const {buildSchema} = require('graphql');
+const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 
 const app = express();
 const Event = require('./models/event');
 
+// Parse http requests
 app.use(bodyParser.json());
 
 // Setup graphql, location of schemas Resolvers
-app.use('/graphql', graphqlHttp({
+app.use(
+  '/graphql',
+  graphqlHttp({
     schema: buildSchema(`
     type Event {
       _id: ID!
@@ -45,14 +48,14 @@ app.use('/graphql', graphqlHttp({
         return Event.find()
           .then(events => {
             return events.map(event => {
-              return {...event._doc, _id: event._doc._id.toString()}
-            })
+              return { ...event._doc, _id: event._doc._id.toString() };
+            });
           })
           .catch(err => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       },
-      createEvent: (args) => {
+      createEvent: args => {
         const event = new Event({
           title: args.eventInput.title,
           description: args.eventInput.description,
@@ -63,7 +66,7 @@ app.use('/graphql', graphqlHttp({
           .save()
           .then(result => {
             console.log(result);
-            return {...result._doc,  _id: event._doc._id.toString()};
+            return { ...result._doc, _id: event._doc._id.toString() };
           })
           .catch(err => {
             console.log(err);
@@ -76,9 +79,17 @@ app.use('/graphql', graphqlHttp({
   })
 );
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@graphql-react-mongo-one-pggfz.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, {useNewUrlParser: true})
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${
+      process.env.MONGO_PASSWORD
+    }@graphql-react-mongo-one-pggfz.mongodb.net/${
+      process.env.MONGO_DB
+    }?retryWrites=true`,
+    { useNewUrlParser: true }
+  )
   .then(() => {
-    console.log('Connection to DB established, Captain o/')
+    console.log('Connection to DB established, Captain o/');
     app.listen(3000);
   })
   .catch(err => {
