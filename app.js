@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const mongoose = require('mongoose');
+const isAuth = require('./middleware/is-auth');
 
 const graphQlSchema = require('./graphQl/schema/index');
 const graphQlResolvers = require('./graphQl/resolvers/index');
@@ -9,6 +10,8 @@ const graphQlResolvers = require('./graphQl/resolvers/index');
 const app = express();
 // Parse http requests
 app.use(bodyParser.json());
+// Middleware, Valid Express syntax used
+app.use(isAuth);
 
 // Setup graphql, location of schemas Resolvers
 app.use(
