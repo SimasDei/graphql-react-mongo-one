@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import './Auth.css';
 
 export class AuthPage extends Component {
+  state = {
+    isLogin: true
+  };
+
   constructor(props) {
     super(props);
     this.emailElement = React.createRef();
@@ -17,17 +21,31 @@ export class AuthPage extends Component {
       return;
     }
 
-    const requestBody = {
+    let requestBody = {
       query: `
-        mutation {
-          createUser(userInput: {email: "${email}", password: "${password}"})
-          {
-            _id
-            email
+        query {
+          login(email: "${email}", password: "${password}") {
+            userId
+            token
+            tokenExpiration
           }
         }
       `
     };
+
+    if (!this.state.isLogin) {
+      requestBody = {
+        query: `
+          mutation {
+            createUser(userInput: {email: "${email}", password: "${password}"})
+            {
+              _id
+              email
+            }
+          }
+        `
+      };
+    }
 
     fetch('http://localhost:8000/graphql', {
       method: 'POST',
@@ -48,6 +66,12 @@ export class AuthPage extends Component {
       .catch(err => {
         console.log(err);
       });
+  };
+
+  modeSwitchHandler = () => {
+    this.setState(prevState => {
+      return { isLogin: !prevState.isLogin };
+    });
   };
 
   render() {
@@ -73,7 +97,9 @@ export class AuthPage extends Component {
         </div>
         <div className="form-actions">
           <button type="submit">Submit</button>
-          <button type="button">Switch to Login</button>
+          <button type="button" onClick={this.modeSwitchHandler}>
+            Switch to {this.state.isLogin ? 'Sign Up' : 'Login'}
+          </button>
         </div>
       </form>
     );
