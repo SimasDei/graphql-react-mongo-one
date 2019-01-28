@@ -10,6 +10,18 @@ const graphQlResolvers = require('./graphQl/resolvers/index');
 const app = express();
 // Parse http requests
 app.use(bodyParser.json());
+
+//Set Headers
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 // Middleware, Valid Express syntax used
 app.use(isAuth);
 
@@ -34,7 +46,7 @@ mongoose
   )
   .then(() => {
     console.log('Connection to DB established, Captain o/');
-    app.listen(5000);
+    app.listen(8000);
   })
   .catch(err => {
     console.log(err);
