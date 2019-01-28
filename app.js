@@ -34,7 +34,7 @@ mongoose
   )
   .then(() => {
     console.log('Connection to DB established, Captain o/');
-    app.listen(3000);
+    app.listen(5000);
   })
   .catch(err => {
     console.log(err);
