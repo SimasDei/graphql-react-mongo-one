@@ -16,7 +16,8 @@ code {
 }
 
 .form-control label,
-.form-control input {
+.form-control input,
+.form-control textarea {
   display: block;
   width: 100%;
 }
@@ -48,5 +49,5 @@ code {
 .btn:hover,
 .btn:active {
   background: linear-gradient(to right, #c04848, #480048);
-  transform: translateY(-0.5rem);
+  transform: translateY(-0.2rem);
 }

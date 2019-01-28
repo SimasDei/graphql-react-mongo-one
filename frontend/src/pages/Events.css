@@ -6,3 +6,8 @@
   width: 30rem;
   max-width: 80%;
 }
+
+.events-control .btn:hover,
+.events-control .btn:active {
+  transform: none;
+}
