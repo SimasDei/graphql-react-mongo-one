@@ -24,19 +24,31 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  align-items: center;
 }
 
 .main-navigation__items li {
   margin: 0 1rem;
 }
 
-.main-navigation__items a {
+.main-navigation__items a,
+.main-navigation__items button {
   text-decoration: none;
   color: #ccc;
+  padding: 0.5rem;
+  border: none;
+  font: inherit;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
 }
 
 .main-navigation__items a:hover,
 .main-navigation__items a:active,
-.main-navigation__items a.active {
+.main-navigation__items a.active,
+.main-navigation__items button:hover,
+.main-navigation__items button:active {
+  background: #252323;
   color: #f082cf;
+  border-radius: 5px;
 }
