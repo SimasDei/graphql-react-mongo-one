@@ -66,16 +66,18 @@ export class EventsPage extends Component {
     };
 
     const token = this.context.token;
-
+    console.log(token);
     fetch('http://localhost:8000/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        /* prettier-ignore */
+        'Authorization': 'Bearer ' + token
       }
     })
       .then(res => {
+        console.log(res);
         if (res.status !== 200 && res.status !== 201) {
           throw new Error('Request Failed');
         }
